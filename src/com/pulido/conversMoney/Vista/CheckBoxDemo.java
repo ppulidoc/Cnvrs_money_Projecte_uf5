@@ -25,4 +25,9 @@ public class CheckBoxDemo implements ItemListener {
 
 
     }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+
+    }
 }
