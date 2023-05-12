@@ -3,6 +3,10 @@ package com.pulido.conversMoney.Vista;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class CheckBoxDemo extends JFrame {
     private final JTextField txtQuantitat;
@@ -12,7 +16,32 @@ public class CheckBoxDemo extends JFrame {
     private final JLabel lblLibras;
     private final JLabel lblPesosMexicanos;
 
+
     private final double[] tipoCambio = {1.0, 0.91, 0.79, 17.78}; //Tipo de cambio actual a Mayo 2023
+
+    public static double[] leerTipoCambioDesdeArchivo(String rutaArchivo) throws IOException {
+        double[] tipus = new double[4];
+
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(rutaArchivo));
+            String linea;
+            int i = 0;
+            while ((linea = br.readLine()) != null && i < 4) {
+                tipus[i] = Double.parseDouble(linea);
+                i++;
+            }
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return tipus;
+    }
 
     public CheckBoxDemo() {
         super("Convertidor de Monedes");
@@ -33,11 +62,20 @@ public class CheckBoxDemo extends JFrame {
 
         btnConvertir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                double monto = Double.parseDouble(txtQuantitat.getText());
+                try {
+                    leerTipoCambioDesdeArchivo("src/com/pulido/conversMoney/files/convertir.txt");
+                } catch (IOException ex) {
+                    System.out.println("L'arxiu no s'ha trobat");
+                }
+                double diners = Double.parseDouble(txtQuantitat.getText());
                 int monedaSeleccionada = cbMonedas.getSelectedIndex();
                 double[] conversiones = new double[4];
                 for(int i = 0; i < 4; i++) {
-                    conversiones[i] = monto / tipoCambio[monedaSeleccionada] * tipoCambio[i];
+                    try {
+                        conversiones[i] = diners / leerTipoCambioDesdeArchivo("src/cm/pulido/conversMoney/files/convertir.txt")[monedaSeleccionada] * leerTipoCambioDesdeArchivo("src/com/pulido/conversMoney/files/convertir.txt")[i];
+                    } catch (IOException ex) {
+                        System.out.println("L'arxiu no s'ha trobat");
+                    }
                 }
                 lblDolares.setText(String.format("%.2f", conversiones[0]));
                 lblEuros.setText(String.format("%.2f", conversiones[1]));
@@ -64,6 +102,7 @@ public class CheckBoxDemo extends JFrame {
         add(lblPesosMexicanos);
 
         setVisible(true);
+        setResizable(false);
     }
 
 }
