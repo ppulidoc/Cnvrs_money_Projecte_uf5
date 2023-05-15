@@ -72,7 +72,7 @@ public class CheckBoxDemo extends JFrame {
                 double[] conversiones = new double[4];
                 for(int i = 0; i < 4; i++) {
                     try {
-                        conversiones[i] = diners / leerTipoCambioDesdeArchivo("src/cm/pulido/conversMoney/files/convertir.txt")[monedaSeleccionada] * leerTipoCambioDesdeArchivo("src/com/pulido/conversMoney/files/convertir.txt")[i];
+                        conversiones[i] = diners / leerTipoCambioDesdeArchivo("src/com/pulido/conversMoney/files/convertir.txt")[monedaSeleccionada] * leerTipoCambioDesdeArchivo("src/com/pulido/conversMoney/files/convertir.txt")[i];
                     } catch (IOException ex) {
                         System.out.println("L'arxiu no s'ha trobat");
                     }
