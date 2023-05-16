@@ -6,12 +6,17 @@ import javax.swing.*;
 public class inicial {
     public static void main(String[] args) {
 
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new CheckBoxDemo();
-            }
-        });
+        try{
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new CheckBoxDemo();
+                }
+            });
+        } catch (NumberFormatException ex){
+            System.out.println("Ha de ser un número.");
+        }
+
 
     }
 }

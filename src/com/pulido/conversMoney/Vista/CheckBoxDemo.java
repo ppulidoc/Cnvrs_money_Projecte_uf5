@@ -62,12 +62,15 @@ public class CheckBoxDemo extends JFrame {
 
         btnConvertir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                double diners = 0;
                 try {
                     leerTipoCambioDesdeArchivo("src/com/pulido/conversMoney/files/convertir.txt");
+                    diners = Double.parseDouble(txtQuantitat.getText());
                 } catch (IOException ex) {
                     System.out.println("L'arxiu no s'ha trobat");
+                } catch (NumberFormatException ex){
+                    System.out.println("S'ha d'introduïr un número");
                 }
-                double diners = Double.parseDouble(txtQuantitat.getText());
                 int monedaSeleccionada = cbMonedas.getSelectedIndex();
                 double[] conversiones = new double[4];
                 for(int i = 0; i < 4; i++) {
